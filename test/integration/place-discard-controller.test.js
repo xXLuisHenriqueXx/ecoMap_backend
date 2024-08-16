@@ -38,7 +38,7 @@ describe('Place Discard Controller', () => {
         await placeDiscard.save();
 
         const response = await supertest(app)
-            .get('/user/places')
+            .get('/savedplaces')
             .set('Authorization', `Bearer ${token}`);
 
         expect(response.statusCode).toBe(200);
@@ -49,7 +49,7 @@ describe('Place Discard Controller', () => {
         const placeDiscardInput = placeDiscardFactory.build({ user: user._id });
         
         const response = await supertest(app)
-            .post('/user/places')
+            .post('/savedplaces')
             .set('Authorization', `Bearer ${token}`)
             .send(placeDiscardInput);
 
@@ -66,7 +66,7 @@ describe('Place Discard Controller', () => {
         await placeDiscard.save();
 
         const response = await supertest(app)
-            .delete(`/user/places/${placeDiscard._id}`)
+            .delete(`/savedplaces/${placeDiscard._id}`)
             .set('Authorization', `Bearer ${token}`);
 
         const deletedPlace = await connection.models.PlaceDiscard.findById(placeDiscard._id);

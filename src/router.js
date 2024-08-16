@@ -23,8 +23,8 @@ router.get('/places', googlePlacesController.nearbyPlaces);
 router.get('/places/:placeId', googlePlacesController.getPlaceDetails);
 
 // User Places routes
-router.get('/user/places', withAuth, placeDiscardController.getPlaces);
-router.post('/user/places', withAuth, placeDiscardController.save);
-router.delete('/user/places/:_id', withAuth, placeDiscardController.delete);
+router.get('/savedplaces', withAuth, placeDiscardController.getPlaces);
+router.post('/savedplaces', withAuth, placeDiscardController.save);
+router.delete('/savedplaces/:_id', withAuth, placeDiscardController.delete);
 
 module.exports = router;

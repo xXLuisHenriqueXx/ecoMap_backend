@@ -5,7 +5,6 @@ const userSchema = new Schema({
     name: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    savedPlaceDiscard: [{ type: Schema.Types.ObjectId, ref: 'PlaceDiscard' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

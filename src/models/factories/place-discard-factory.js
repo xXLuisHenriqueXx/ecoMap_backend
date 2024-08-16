@@ -7,7 +7,7 @@ const placeDiscardFactory = Factory.define(() => {
         _id: new mongoose.Types.ObjectId(),
         title: faker.lorem.sentence(),
         address: faker.address.streetAddress(),
-        rating: faker.random.numeric(),
+        rating: Math.floor(Math.random() * 5) + 1,
         googlePlaceId: faker.random.alphaNumeric(),
         createdAt: new Date(),
         updatedAt: new Date()

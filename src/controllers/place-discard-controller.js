@@ -14,8 +14,8 @@ const PlaceDiscardController = {
     },
 
     save: async (req, res) => {
+        const { title, address, rating, googlePlaceId } = req.body;
         const userId = req.user._id;
-        const { title, rating, address, googlePlaceId } = req.body;
 
         try {
             const place = new PlaceDiscard({
@@ -43,7 +43,7 @@ const PlaceDiscardController = {
                 return res.status(404).json({ error: 'Place not found' });
             }
 
-            await place.deleteOne({ _id: note._id });
+            await place.deleteOne({ _id: place._id });
 
             return res.status(204).json();
         } catch (err) {
