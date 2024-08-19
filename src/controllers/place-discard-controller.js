@@ -23,7 +23,7 @@ const PlaceDiscardController = {
                 address,
                 rating,
                 googlePlaceId,
-                userId
+                user: userId
             });
             await place.save();
 
