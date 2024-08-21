@@ -6,6 +6,7 @@ const googlePlacesController = require('./controllers/google-places-controller')
 const placeDiscardController = require('./controllers/place-discard-controller')
 
 const withAuth = require('./middlewares/auth');
+const { profileUpload } = require('./middlewares/upload');
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.post('/savedplaces', withAuth, placeDiscardController.save);
 router.delete('/savedplaces/:_id', withAuth, placeDiscardController.delete);
 
 // Profile Picture routes
-router.put('/profilepicture', withAuth, userController.updateProfilePicture);
+router.put('/profilepicture', withAuth, profileUpload.single('profilePicture'), userController.updateProfilePicture);
 router.delete('/profilepicture', withAuth, userController.removeProfilePicture);
 
 module.exports = router;

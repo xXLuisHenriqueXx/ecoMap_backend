@@ -1,6 +1,7 @@
 const User = require("../models/User")
 const fs = require('fs');
 const path = require('path');
+const { profileUpload } = require('../middlewares/upload');
 
 module.exports = {
     update: async (req, res) => {

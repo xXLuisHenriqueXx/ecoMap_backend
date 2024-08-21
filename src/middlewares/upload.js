@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
     }
 })
 
-const productUpload = multer({
+const profileUpload = multer({
     storage: storage,
     preservePath: true,
     fileFilter: function (req, file, callback) {
@@ -23,4 +23,4 @@ const productUpload = multer({
     }
 })
 
-module.exports = { productUpload };
+module.exports = { profileUpload };
