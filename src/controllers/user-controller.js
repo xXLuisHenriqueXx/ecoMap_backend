@@ -1,4 +1,6 @@
 const User = require("../models/User")
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
     update: async (req, res) => {
@@ -49,6 +51,58 @@ module.exports = {
             }
 
             return res.json(user);
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
+    },
+
+    updateProfilePicture: async (req, res) => {
+        try {
+            const user = req.user;
+
+            if (!req.file) {
+                return res.status(400).json({ error: 'Profile picture is required' });
+            }
+
+            if (user.profilePicture && user.profilePicture.filename) {
+                const oldPath = path.resolve("public", "uploads", "profile-pictures", user.profilePicture.filename);
+                if (fs.existsSync(oldPath)) {
+                    fs.unlinkSync(oldPath);
+                }
+            }
+
+            user.profilePicture = {
+                _id: new mongoose.Types.ObjectId(),
+                filename: req.file.filename,
+                url: `${process.env.APP_URL}/uploads/profile-pictures/${req.file.filename}`
+            };
+
+            await user.save();
+
+            return res.status(204).json({ message: 'Profile picture updated', profilePicture: user.profilePicture });
+        } catch (err) {
+            return res.status(400).json({ error: err.message });
+        }
+    },
+
+    removeProfilePicture: async (req, res) => {
+        try {
+            const user = req.user;
+
+            if (!user.profilePicture || !user.profilePicture.filename) {
+                return res.status(400).json({ error: 'Profile picture not found' });
+            }
+
+            const oldPath = path.resolve("public", "uploads", "profile-pictures", user.profilePicture.filename);
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+            }
+
+            user.profilePicture = undefined;
+
+            await user.save();
+
+            return res.status(204).json({ message: 'Profile picture removed' });
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }

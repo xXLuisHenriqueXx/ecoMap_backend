@@ -27,4 +27,8 @@ router.get('/savedplaces', withAuth, placeDiscardController.getPlaces);
 router.post('/savedplaces', withAuth, placeDiscardController.save);
 router.delete('/savedplaces/:_id', withAuth, placeDiscardController.delete);
 
+// Profile Picture routes
+router.put('/profilepicture', withAuth, userController.updateProfilePicture);
+router.delete('/profilepicture', withAuth, userController.removeProfilePicture);
+
 module.exports = router;
