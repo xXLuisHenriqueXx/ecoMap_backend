@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, default: mongoose } = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
@@ -6,7 +6,7 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePicture: {
-        _id: new mongoose.Schema.Types.ObjectId,
+        _id: mongoose.Schema.Types.ObjectId,
         filename: String,
         url: String
     },
