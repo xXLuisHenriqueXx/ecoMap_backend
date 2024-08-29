@@ -5,9 +5,9 @@ const router = require('./router');
 const app = express();
 
 app.use(cors({
-    origin: '*',
+    origin: '*'
 }));
-app.use(express.static("public"));
+app.use('/public', express.static('public'));
 app.use(express.json());
 app.use(router);
 
