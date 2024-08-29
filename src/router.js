@@ -29,7 +29,7 @@ router.post('/savedplaces', withAuth, placeDiscardController.save);
 router.delete('/savedplaces/:_id', withAuth, placeDiscardController.delete);
 
 // Profile Picture routes
-router.post('/profilepicture', withAuth, profileUpload.single('profilePicture'), userController.updateProfilePicture);
+router.post('/profilepicture', withAuth, upload.single('profilePicture'), userController.updateProfilePicture);
 router.delete('/profilepicture', withAuth, userController.removeProfilePicture);
 
 module.exports = router;
