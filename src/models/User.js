@@ -5,11 +5,7 @@ const userSchema = new Schema({
     name: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    profilePicture: {
-        _id: mongoose.Schema.Types.ObjectId,
-        filename: String,
-        url: String
-    },
+    profilePicture: { type: String, default: null },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

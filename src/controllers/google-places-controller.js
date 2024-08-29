@@ -11,6 +11,7 @@ module.exports = {
                     location: `${latitude},${longitude}`,
                     radius,
                     type: 'recycling_center',
+                    keywords: 'recycling',
                     key: process.env.GOOGLE_API_KEY
                 }
             });

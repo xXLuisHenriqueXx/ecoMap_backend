@@ -1,3 +1,4 @@
+require('dotenv').config();
 const User = require("../models/User")
 const fs = require('fs');
 const path = require('path');
@@ -58,28 +59,22 @@ module.exports = {
 
     updateProfilePicture: async (req, res) => {
         try {
-            const user = req.user;
+            const userId = req.user._id;
+            const profilePicturePath = req.file.path;
 
-            if (!req.file) {
-                return res.status(400).json({ error: 'Profile picture is required' });
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
             }
 
-            if (user.profilePicture && user.profilePicture.filename) {
-                const oldPath = path.resolve("public", "uploads", "profile-pictures", user.profilePicture.filename);
-                if (fs.existsSync(oldPath)) {
-                    fs.unlinkSync(oldPath);
-                }
+            if (user.profilePicture) {
+                fs.unlinkSync(path.resolve(user.profilePicture));
             }
 
-            user.profilePicture = {
-                _id: new mongoose.Types.ObjectId(),
-                filename: req.file.filename,
-                url: `${process.env.APP_URL}/uploads/profile-pictures/${req.file.filename}`
-            };
-
+            user.profilePicture = profilePicturePath;
             await user.save();
 
-            return res.status(204).json({ message: 'Profile picture updated', profilePicture: user.profilePicture });
+            return res.status(204).json({ message: 'Profile picture updated' });
         } catch (err) {
             return res.status(400).json({ error: err.message });
         }
@@ -87,20 +82,18 @@ module.exports = {
 
     removeProfilePicture: async (req, res) => {
         try {
-            const user = req.user;
+            const userId = req.user._id;
 
-            if (!user.profilePicture || !user.profilePicture.filename) {
-                return res.status(400).json({ error: 'Profile picture not found' });
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
             }
 
-            const oldPath = path.resolve("public", "uploads", "profile-pictures", user.profilePicture.filename);
-            if (fs.existsSync(oldPath)) {
-                fs.unlinkSync(oldPath);
+            if (user.profilePicture) {
+                fs.unlinkSync(path.resolve(user.profilePicture));
+                user.profilePicture = null;
+                await user.save();
             }
-
-            user.profilePicture = undefined;
-
-            await user.save();
 
             return res.status(204).json({ message: 'Profile picture removed' });
         } catch (err) {

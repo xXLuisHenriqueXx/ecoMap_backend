@@ -7,7 +7,7 @@ module.exports = {
     register: async (req, res) => {
         try {
             const { name, email, password } = req.body;
-            const user = new User({ name, email, password });
+            const user = new User({ name, email, password, profilePicture: null });
             await user.save();
 
             const token = jwt.sign({ _id: user._id, email: user.email }, jwtSecret, { expiresIn: "14d"});
